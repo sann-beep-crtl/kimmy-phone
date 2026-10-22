@@ -6,30 +6,262 @@
   <title>Kimmy Phone</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-    html, body { width: 100%; height: 100%; background: #000; color: #fff; overflow: hidden; }
+    html, body { width: 100%; height: 100%; background: #0b0c10; color: #fff; overflow: hidden; }
     
     .phone-container { width: 100%; height: 100%; position: relative; display: flex; flex-direction: column; background: #000; }
-    .dynamic-island { width: 120px; height: 32px; background: #000; border-radius: 20px; position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 1000; }
-    .status-bar { width: 100%; height: 48px; display: flex; justify-content: space-between; align-items: center; padding: 0 25px; font-size: 14px; font-weight: 600; position: absolute; top: 0; left: 0; z-index: 999; }
+    .dynamic-island { width: 120px; height: 32px; background: #000; border-radius: 20px; position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 1000; pointer-events: none; }
+    .status-bar { width: 100%; height: 48px; display: flex; justify-content: space-between; align-items: center; padding: 0 25px; font-size: 14px; font-weight: 600; position: absolute; top: 0; left: 0; z-index: 999; pointer-events: none; }
     
-    .screen { flex: 1; position: relative; overflow: hidden; }
+    .screen { flex: 1; position: relative; overflow: hidden; background: #111; }
 
     /* LOCKSCREEN */
     #lock-main {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: url('kimmy1.jpg') center/cover no-repeat;
+      background: linear-gradient(180deg, #1f1c2c, #928dab), url('kimmy1.jpg') center/cover no-repeat;
       display: flex; flex-direction: column; justify-content: space-between;
-      padding: 80px 20px 50px; z-index: 80; cursor: pointer;
+      padding: 80px 20px 50px; z-index: 80; cursor: pointer; transition: transform 0.4s ease;
     }
-    .lock-time { font-size: 72px; font-weight: 200; text-align: center; text-shadow: 0 3px 10px rgba(0,0,0,0.8); }
-    .lock-date { font-size: 18px; text-align: center; margin-top: -10px; }
-    .swipe-hint { text-align: center; font-size: 14px; animation: bounce 1.5s infinite; }
+    .lock-time { font-size: 72px; font-weight: 200; text-align: center; text-shadow: 0 3px 12px rgba(0,0,0,0.8); }
+    .lock-date { font-size: 18px; text-align: center; margin-top: -10px; text-shadow: 0 2px 6px rgba(0,0,0,0.8); }
+    .swipe-hint { text-align: center; font-size: 14px; animation: bounce 1.5s infinite; text-shadow: 0 2px 6px rgba(0,0,0,0.8); }
 
-    /* PASSCODE */
+    /* PASSCODE (080310) */
     #passcode-screen {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.7); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+      background: rgba(0,0,0,0.75); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
       display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
       padding: 60px 20px 50px; z-index: 85; transform: translateY(100%); transition: transform 0.3s ease;
     }
-    .pass-dots { display: flex; gap:
+    .pass-dots { display: flex; gap: 15px; margin-bottom: 25px; }
+    .dot { width: 14px; height: 14px; border: 2px solid #fff; border-radius: 50%; }
+    .dot.active { background: #fff; }
+    .numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; width: 260px; margin-bottom: 25px; }
+    .num-btn { width: 72px; height: 72px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 26px; border: none; color: #fff; margin: 0 auto; cursor: pointer; }
+    .num-btn:active { background: rgba(255,255,255,0.4); }
+    .error-msg { font-size: 13px; color: #ff4d4d; height: 20px; font-weight: 600; margin-bottom: 10px; }
+
+    /* HOMESCREEN */
+    .homescreen {
+      height: 100%; padding: 80px 20px 30px; display: flex; flex-direction: column; justify-content: space-between;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364), url('kimmy2.jpg') center/cover no-repeat;
+    }
+    .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px 10px; }
+    .app-icon { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+    .icon-box { width: 62px; height: 62px; border-radius: 16px; display: flex; justify-content: center; align-items: center; font-size: 28px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+    .app-name { font-size: 11px; margin-top: 6px; text-shadow: 0 1px 3px #000; font-weight: 500; }
+
+    .ios-dock { background: rgba(255,255,255,0.25); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 30px; padding: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; border: 1px solid rgba(255,255,255,0.2); }
+
+    /* APPS */
+    .app-window { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 900; display: none; flex-direction: column; }
+    .ios-app-header { padding: 50px 20px 15px; background: #1c1c1e; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2c2c2e; font-weight: 600; }
+    .ios-back-btn { color: #0a84ff; font-size: 16px; cursor: pointer; font-weight: normal; }
+
+    .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 15px; overflow-y: auto; flex: 1; }
+    .gallery-item { width: 100%; height: 160px; border-radius: 12px; object-fit: cover; background: #222; }
+
+    /* WHATSAPP LIST & CHATS */
+    .chat-item { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid #1f2c34; cursor: pointer; }
+    .chat-avatar { width: 48px; height: 48px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 20px; font-weight: bold; color: #fff; }
+    .chat-info { flex: 1; }
+    .chat-title { font-size: 15px; font-weight: 600; color: #e9edef; display: flex; justify-content: space-between; }
+    .chat-preview { font-size: 13px; color: #8696a0; margin-top: 3px; }
+
+    .home-indicator { width: 134px; height: 5px; background: #fff; border-radius: 10px; position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); z-index: 1001; pointer-events: none; }
+    @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+  </style>
+</head>
+<body>
+
+  <div class="phone-container">
+    <div class="dynamic-island"></div>
+    <div class="status-bar">
+      <span id="current-time-bar">20:05</span>
+      <span>5G 🔋</span>
+    </div>
+
+    <div class="screen">
+      <!-- LOCKSCREEN -->
+      <div id="lock-main" onclick="showPasscode()">
+        <div>
+          <div class="lock-time" id="clock">20:05</div>
+          <div class="lock-date">Kamis, 22 Oktober</div>
+        </div>
+        <div class="swipe-hint">Klik layar untuk membuka 🔒</div>
+      </div>
+
+      <!-- PASSCODE (080310) -->
+      <div id="passcode-screen">
+        <div style="margin-bottom: 15px; font-size: 15px;">Masukkan sandi anda</div>
+        <div class="pass-dots">
+          <div class="dot" id="d1"></div><div class="dot" id="d2"></div><div class="dot" id="d3"></div>
+          <div class="dot" id="d4"></div><div class="dot" id="d5"></div><div class="dot" id="d6"></div>
+        </div>
+        <div class="error-msg" id="errorMsg"></div>
+        <div class="numpad">
+          <button class="num-btn" onclick="pressNum('1')">1</button>
+          <button class="num-btn" onclick="pressNum('2')">2</button>
+          <button class="num-btn" onclick="pressNum('3')">3</button>
+          <button class="num-btn" onclick="pressNum('4')">4</button>
+          <button class="num-btn" onclick="pressNum('5')">5</button>
+          <button class="num-btn" onclick="pressNum('6')">6</button>
+          <button class="num-btn" onclick="pressNum('7')">7</button>
+          <button class="num-btn" onclick="pressNum('8')">8</button>
+          <button class="num-btn" onclick="pressNum('9')">9</button>
+          <button class="num-btn" style="visibility:hidden;"></button>
+          <button class="num-btn" onclick="pressNum('0')">0</button>
+          <button class="num-btn" onclick="clearNum()">⌫</button>
+        </div>
+      </div>
+
+      <!-- HOMESCREEN -->
+      <div class="homescreen">
+        <div class="app-grid">
+          <div class="app-icon" onclick="openApp('galleryApp')">
+            <div class="icon-box" style="background: linear-gradient(135deg, #ff7e5f, #feb47b);">🖼️</div>
+            <span class="app-name">Galeri</span>
+          </div>
+          <div class="app-icon" onclick="openApp('waApp')">
+            <div class="icon-box" style="background: #25D366;">💬</div>
+            <span class="app-name">WhatsApp</span>
+          </div>
+        </div>
+        <div class="ios-dock">
+          <div class="app-icon" onclick="openApp('waApp')"><div class="icon-box" style="background: #25D366; width: 50px; height: 50px;">💬</div></div>
+          <div class="app-icon" onclick="openApp('galleryApp')"><div class="icon-box" style="background: linear-gradient(135deg, #ff7e5f, #feb47b); width: 50px; height: 50px;">🖼️</div></div>
+        </div>
+      </div>
+
+      <!-- GALERI APP -->
+      <div id="galleryApp" class="app-window">
+        <div class="ios-app-header">
+          <span class="ios-back-btn" onclick="closeApp('galleryApp')">‹ Beranda</span>
+          <span>Galeri Kimmy</span>
+          <span></span>
+        </div>
+        <div class="gallery-grid">
+          <img src="kimmy1.jpg" class="gallery-item" alt="Kimmy 1">
+          <img src="kimmy2.jpg" class="gallery-item" alt="Kimmy 2">
+        </div>
+      </div>
+
+      <!-- WHATSAPP APP -->
+      <div id="waApp" class="app-window">
+        <!-- DAFTAR CHAT UTAMA -->
+        <div id="wa-list-view" style="display: flex; flex-direction: column; height: 100%;">
+          <div class="ios-app-header" style="background: #1f1f1f;">
+            <span class="ios-back-btn" onclick="closeApp('waApp')">‹ Beranda</span>
+            <span style="font-size: 17px; font-weight: bold;">WhatsApp</span>
+            <span></span>
+          </div>
+          <div style="flex: 1; background: #0b141a; overflow-y: auto;">
+            
+            <!-- CHAT GRUP PASSION 🔥 -->
+            <div class="chat-item" onclick="openChat('chat-passion')">
+              <div class="chat-avatar" style="background: linear-gradient(135deg, #ff416c, #ff4b2b);">🔥</div>
+              <div class="chat-info">
+                <div class="chat-title">Passion 🔥 <span style="font-size:11px; color:#8696a0;">20:02</span></div>
+                <div class="chat-preview">Member: SIAPA YANG SIMPAN CILOOK DI...</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- DETAIL CHAT: PASSION 🔥 (ABSURD VERSION) -->
+        <div id="chat-passion" style="display: none; flex-direction: column; height: 100%;">
+          <div class="ios-app-header" style="background: #1f1f1f;">
+            <span class="ios-back-btn" onclick="backToWaList('chat-passion')">‹ Chats</span>
+            <span style="font-size: 15px;">Passion 🔥</span>
+            <span></span>
+          </div>
+          <div style="flex:1; background:#0b141a; padding:15px; font-size:13px; overflow-y:auto; display:flex; flex-direction:column; gap:12px;">
+            
+            <div style="background:#202c33; padding:10px 12px; border-radius:10px; width:82%; align-self:flex-start;">
+              <strong style="color:#ff4b2b; font-size:11px;">Member Passion 1</strong><br>
+              Guys, fyi tadi pas latihan gerakanku agak lambat bukan karena lupa koreo ya... tapi karena kekenyangan makan seblak 3 porsi 😭🙏
+              <div style="font-size:9px; color:#8696a0; text-align:right; margin-top:4px;">19:45</div>
+            </div>
+
+            <div style="background:#202c33; padding:10px 12px; border-radius:10px; width:80%; align-self:flex-start;">
+              <strong style="color:#ff7e5f; font-size:11px;">Member Passion 2</strong><br>
+              PANTESAN TADI PAS NARI ADA SUARA KLUK KLUK DARI PERUTMU WKWKWK 💀💀
+              <div style="font-size:9px; color:#8696a0; text-align:right; margin-top:4px;">19:47</div>
+            </div>
+
+            <div style="background:#005c4b; padding:10px 12px; border-radius:10px; width:80%; align-self:flex-end;">
+              Sumpah kaget banget pas lagu Heavy Rotation tiba-tiba ada aroma kencur seblak menyeruak 😭
+              <div style="font-size:9px; color:rgba(255,255,255,0.6); text-align:right; margin-top:4px;">19:50</div>
+            </div>
+
+            <div style="background:#202c33; padding:10px 12px; border-radius:10px; width:82%; align-self:flex-start;">
+              <strong style="color:#00bfff; font-size:11px;">Member Passion 3</strong><br>
+              Oiya bbtw mau tanya, aliran bubur diaduk sama gak diaduk di tim Passion masih aman kan? Jangan sampe kita bubar cuma gara-gara bubur ayam plis 🥣🔥
+              <div style="font-size:9px; color:#8696a0; text-align:right; margin-top:4px;">19:55</div>
+            </div>
+
+            <div style="background:#005c4b; padding:10px 12px; border-radius:10px; width:80%; align-self:flex-end;">
+              Tim bubur diaduk till I die!! Yang gak diaduk fix musuh masyarakat 💥😋
+              <div style="font-size:9px; color:rgba(255,255,255,0.6); text-align:right; margin-top:4px;">19:58</div>
+            </div>
+
+            <div style="background:#202c33; padding:10px 12px; border-radius:10px; width:85%; align-self:flex-start;">
+              <strong style="color:#ff4b2b; font-size:11px;">Member Passion 1</strong><br>
+              SIAPA YANG SIMPAN CILOK DI DALAM SEPATU DANSALKU AYO NGAKU SEKARANG JUGA 🫵😡
+              <div style="font-size:9px; color:#8696a0; text-align:right; margin-top:4px;">20:02</div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <div class="home-indicator"></div>
+  </div>
+
+  <script>
+    function updateClock() {
+      const now = new Date();
+      const timeStr = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+      document.getElementById('clock').innerText = timeStr;
+      document.getElementById('current-time-bar').innerText = timeStr;
+    }
+    setInterval(updateClock, 1000); updateClock();
+
+    function showPasscode() { document.getElementById('passcode-screen').style.transform = 'translateY(0)'; }
+
+    let enteredPin = "";
+    function pressNum(num) {
+      if (enteredPin.length < 6) { enteredPin += num; updateDots(); }
+      if (enteredPin.length === 6) { setTimeout(checkPin, 150); }
+    }
+    function clearNum() { enteredPin = ""; updateDots(); document.getElementById('errorMsg').innerText = ""; }
+    function updateDots() {
+      for (let i = 1; i <= 6; i++) {
+        document.getElementById(`d${i}`).classList.toggle('active', i <= enteredPin.length);
+      }
+    }
+    function checkPin() {
+      if (enteredPin === "080310") {
+        document.getElementById('lock-main').style.transform = 'translateY(-100%)';
+        document.getElementById('passcode-screen').style.transform = 'translateY(-100%)';
+      } else {
+        document.getElementById('errorMsg').innerText = "Sandi Salah!";
+        enteredPin = ""; updateDots();
+      }
+    }
+    function openApp(id) { document.getElementById(id).style.display = 'flex'; }
+    function closeApp(id) { document.getElementById(id).style.display = 'none'; }
+
+    function openChat(chatId) {
+      document.getElementById('wa-list-view').style.display = 'none';
+      document.getElementById(chatId).style.display = 'flex';
+    }
+    function backToWaList(chatId) {
+      document.getElementById(chatId).style.display = 'none';
+      document.getElementById('wa-list-view').style.display = 'flex';
+    }
+  </script>
+</body>
+</html>
