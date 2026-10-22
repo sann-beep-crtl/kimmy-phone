@@ -3,17 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kimmy JKT48 Phone</title>
+  <title>Kimmy JKT48 iPhone 17 Pro Max</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
     body { background-color: #050505; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
     
+    /* Frame iPhone 17 Pro Max Presisi */
     .phone-frame {
       width: 360px;
       height: 730px;
       background-color: #000;
-      border: 10px solid #2b2b2b;
-      border-radius: 48px;
+      border: 10px solid #2c2c2e;
+      border-radius: 50px;
       position: relative;
       overflow: hidden;
       box-shadow: 0 25px 60px rgba(0,0,0,0.9);
@@ -21,324 +22,25 @@
       flex-direction: column;
     }
     
+    /* Dynamic Island iOS 18/19 */
     .dynamic-island {
-      width: 110px; height: 28px; background-color: #000;
-      border-radius: 20px; z-index: 100;
+      width: 115px; height: 30px; background-color: #000;
+      border-radius: 20px; z-index: 1000;
       position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+      pointer-events: none;
     }
 
+    /* iOS Status Bar */
     .status-bar {
-      width: 100%; height: 40px; display: flex; justify-content: space-between;
-      align-items: center; padding: 0 25px; font-size: 12px; font-weight: 600; z-index: 90;
+      width: 100%; height: 42px; display: flex; justify-content: space-between;
+      align-items: center; padding: 0 25px; font-size: 12px; font-weight: 600; z-index: 999;
       position: absolute; top: 0; left: 0; pointer-events: none;
     }
     
     .screen { flex: 1; position: relative; overflow: hidden; display: flex; flex-direction: column; }
 
-    /* LOCKSCREEN UTAMA (Foto Kimmy Baret) */
+    /* LOCKSCREEN UTAMA (Foto Kimmy Baret - kimmy1.jpg) */
     #lock-main {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
       background: url('kimmy1.jpg') center/cover no-repeat;
-      display: flex; flex-direction: column; justify-content: space-between;
-      padding: 60px 20px 40px; z-index: 80; cursor: pointer; transition: transform 0.4s ease;
-    }
-    
-    .lock-time { font-size: 68px; font-weight: 200; text-shadow: 0 3px 12px rgba(0,0,0,0.8); letter-spacing: -2px; text-align: center; }
-    .lock-date { font-size: 16px; font-weight: 500; opacity: 0.95; text-align: center; margin-top: -10px; text-shadow: 0 2px 8px rgba(0,0,0,0.8); }
-    .swipe-hint { text-align: center; font-size: 13px; font-weight: 500; opacity: 0.9; animation: bounce 1.5s infinite; text-shadow: 0 2px 6px rgba(0,0,0,0.9); }
-
-    /* LAYAR INPUT SANDI */
-    #passcode-screen {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.55); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-      display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
-      padding: 60px 20px 40px; z-index: 75; transform: translateY(100%); transition: transform 0.4s ease;
-    }
-    
-    .passcode-title { font-size: 15px; font-weight: 500; margin-bottom: 20px; letter-spacing: 0.3px; }
-    .pass-dots { display: flex; gap: 14px; margin-bottom: 25px; }
-    .dot { width: 13px; height: 13px; border: 2px solid rgba(255,255,255,0.8); border-radius: 50%; background: transparent; transition: 0.2s; }
-    .dot.active { background: #fff; }
-    
-    .numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; width: 250px; margin-bottom: 20px; }
-    .num-btn {
-      width: 68px; height: 68px; background: rgba(255, 255, 255, 0.18);
-      border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 24px;
-      font-weight: 400; cursor: pointer; user-select: none; margin: 0 auto; border: none; color: #fff;
-    }
-    .num-btn:active { background: rgba(255, 255, 255, 0.4); }
-    .error-msg { font-size: 12px; color: #ff4d4d; height: 18px; font-weight: 600; margin-bottom: 10px; }
-
-    /* HOMESCREEN (Foto Kimmy Selfie Topi Hitam) */
-    .homescreen {
-      flex: 1; padding: 60px 20px 25px; display: flex; flex-direction: column; justify-content: space-between;
-      background: url('kimmy2.jpg') center/cover no-repeat;
-      position: relative; z-index: 10;
-    }
-    
-    .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px 12px; }
-    .app-icon { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
-    .icon-box {
-      width: 60px; height: 60px; border-radius: 15px; display: flex;
-      justify-content: center; align-items: center; font-size: 28px;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.5);
-    }
-    .app-name { font-size: 11px; margin-top: 6px; color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,0.9); font-weight: 500; }
-
-    .ios-dock {
-      background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-      border-radius: 32px; padding: 12px 14px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
-      border: 1px solid rgba(255,255,255,0.3);
-    }
-
-    .app-window {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background-color: #000; z-index: 95; display: none; flex-direction: column;
-    }
-    .app-header {
-      padding: 45px 15px 12px; background: #121212; display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: 15px; border-bottom: 1px solid #222;
-    }
-    .back-btn { cursor: pointer; font-size: 16px; color: #0a84ff; font-weight: 500; }
-
-    /* GALERI */
-    .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 15px; overflow-y: auto; background: #000; flex: 1; }
-    .gallery-item {
-      width: 100%; height: 160px; border-radius: 12px; object-fit: cover;
-      cursor: pointer; border: 1px solid #222;
-    }
-
-    /* WHATSAPP */
-    .wa-header { background-color: #1f1f1f; color: #fff; border-bottom: 1px solid #2d2d2d; }
-    .chat-body { flex: 1; background: #0b141a; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
-    .chat-bubble {
-      max-width: 80%; padding: 10px 14px; border-radius: 14px; font-size: 13px; line-height: 1.4;
-    }
-    .chat-in { background-color: #202c33; color: #e9edef; align-self: flex-start; border-top-left-radius: 4px; }
-    .chat-out { background-color: #005c4b; color: #e9edef; align-self: flex-end; border-top-right-radius: 4px; }
-    .sender-name { font-size: 11px; font-weight: bold; color: #25D366; margin-bottom: 3px; }
-    .chat-time { font-size: 9px; color: rgba(255,255,255,0.5); text-align: right; margin-top: 4px; }
-
-    @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-  </style>
-</head>
-<body>
-
-  <div class="phone-frame">
-    <div class="dynamic-island"></div>
-    
-    <div class="status-bar">
-      <span id="current-time-bar">20:05</span>
-      <span>5G 🔋</span>
-    </div>
-
-    <div class="screen">
-      
-      <!-- LOCKSCREEN UTAMA -->
-      <div id="lock-main" onclick="showPasscode()">
-        <div>
-          <div class="lock-time" id="clock">20:05</div>
-          <div class="lock-date">Kamis, 22 Oktober</div>
-        </div>
-        <div class="swipe-hint">Klik layar untuk membuka 🔒</div>
-      </div>
-
-      <!-- LAYAR SANDI -->
-      <div id="passcode-screen">
-        <div class="passcode-title">Masukkan sandi anda</div>
-        <div class="pass-dots">
-          <div class="dot" id="d1"></div>
-          <div class="dot" id="d2"></div>
-          <div class="dot" id="d3"></div>
-          <div class="dot" id="d4"></div>
-          <div class="dot" id="d5"></div>
-          <div class="dot" id="d6"></div>
-        </div>
-        <div class="error-msg" id="errorMsg"></div>
-        
-        <div class="numpad">
-          <button class="num-btn" onclick="pressNum('1')">1</button>
-          <button class="num-btn" onclick="pressNum('2')">2</button>
-          <button class="num-btn" onclick="pressNum('3')">3</button>
-          <button class="num-btn" onclick="pressNum('4')">4</button>
-          <button class="num-btn" onclick="pressNum('5')">5</button>
-          <button class="num-btn" onclick="pressNum('6')">6</button>
-          <button class="num-btn" onclick="pressNum('7')">7</button>
-          <button class="num-btn" onclick="pressNum('8')">8</button>
-          <button class="num-btn" onclick="pressNum('9')">9</button>
-          <button class="num-btn" style="visibility:hidden;"></button>
-          <button class="num-btn" onclick="pressNum('0')">0</button>
-          <button class="num-btn" style="font-size: 16px;" onclick="clearNum()">⌫</button>
-        </div>
-      </div>
-
-      <!-- HOMESCREEN -->
-      <div class="homescreen">
-        <div class="app-grid">
-          <div class="app-icon" onclick="openApp('galleryApp')">
-            <div class="icon-box" style="background: linear-gradient(135deg, #ff7e5f, #feb47b);">🖼️</div>
-            <span class="app-name">Galeri</span>
-          </div>
-          
-          <div class="app-icon" onclick="openApp('waApp')">
-            <div class="icon-box" style="background: #25D366;">
-              <svg viewBox="0 0 32 32" width="36" height="36" fill="#fff"><path d="M16 2a14 14 0 0 0-12 21.35L2 30l6.85-1.8A14 14 0 1 0 16 2m0 2.5a11.5 11.5 0 1 1-9.92 17.27l-.44-.7-2.73.72.73-2.66-.46-.73A11.5 11.5 0 0 1 16 4.5m6.28 14.17c-.34-.17-2-.99-2.31-1.1s-.54-.17-.77.17-.89 1.1-1.09 1.33-.39.26-.73.09a9.14 9.14 0 0 1-2.69-1.66 10.08 10.08 0 0 1-1.87-2.33c-.2-.34 0-.52.15-.69s.34-.39.51-.59.23-.34.34-.57a.64.64 0 0 0-.03-.63c-.09-.17-.77-1.85-1.05-2.53s-.56-.58-.77-.59h-.66a1.28 1.28 0 0 0-.94.43 3.94 3.94 0 0 0-1.23 2.93 6.84 6.84 0 0 0 1.43 3.62 15.69 15.69 0 0 0 6 5.31c2.11.91 2.54.73 3 .68s1.66-.68 1.9-1.34.24-1.22.17-1.34-.31-.17-.65-.34Z"/></svg>
-            </div>
-            <span class="app-name">WhatsApp</span>
-          </div>
-
-          <div class="app-icon" onclick="openApp('notesApp')">
-            <div class="icon-box" style="background: linear-gradient(135deg, #ffb347, #ffcc33);">📝</div>
-            <span class="app-name">Catatan</span>
-          </div>
-
-          <div class="app-icon" onclick="alert('Memutar Lagu Setlist JKT48 🎵')">
-            <div class="icon-box" style="background: linear-gradient(135deg, #ff416c, #ff4b2b);">🎵</div>
-            <span class="app-name">Musik</span>
-          </div>
-        </div>
-
-        <div class="ios-dock">
-          <div class="app-icon" onclick="openApp('waApp')">
-            <div class="icon-box" style="background: #25D366; width: 50px; height: 50px;">
-              <svg viewBox="0 0 32 32" width="28" height="28" fill="#fff"><path d="M16 2a14 14 0 0 0-12 21.35L2 30l6.85-1.8A14 14 0 1 0 16 2m0 2.5a11.5 11.5 0 1 1-9.92 17.27l-.44-.7-2.73.72.73-2.66-.46-.73A11.5 11.5 0 0 1 16 4.5m6.28 14.17c-.34-.17-2-.99-2.31-1.1s-.54-.17-.77.17-.89 1.1-1.09 1.33-.39.26-.73.09a9.14 9.14 0 0 1-2.69-1.66 10.08 10.08 0 0 1-1.87-2.33c-.2-.34 0-.52.15-.69s.34-.39.51-.59.23-.34.34-.57a.64.64 0 0 0-.03-.63c-.09-.17-.77-1.85-1.05-2.53s-.56-.58-.77-.59h-.66a1.28 1.28 0 0 0-.94.43 3.94 3.94 0 0 0-1.23 2.93 6.84 6.84 0 0 0 1.43 3.62 15.69 15.69 0 0 0 6 5.31c2.11.91 2.54.73 3 .68s1.66-.68 1.9-1.34.24-1.22.17-1.34-.31-.17-.65-.34Z"/></svg>
-            </div>
-          </div>
-          <div class="app-icon" onclick="openApp('galleryApp')">
-            <div class="icon-box" style="background: linear-gradient(135deg, #ff7e5f, #feb47b); width: 50px; height: 50px; font-size: 24px;">🖼️</div>
-          </div>
-          <div class="app-icon" onclick="alert('Membuka Safari Browser')">
-            <div class="icon-box" style="background: linear-gradient(135deg, #1e90ff, #00bfff); width: 50px; height: 50px; font-size: 24px;">🧭</div>
-          </div>
-          <div class="app-icon" onclick="alert('Membuka Kamera HP 📸')">
-            <div class="icon-box" style="background: #333; width: 50px; height: 50px; font-size: 24px;">📸</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- GALERI APP -->
-      <div id="galleryApp" class="app-window">
-        <div class="app-header">
-          <span class="back-btn" onclick="closeApp('galleryApp')">‹ Kembali</span>
-          <span style="flex: 1; text-align: center; margin-right: 60px;">Galeri Kimmy</span>
-        </div>
-        <div class="gallery-grid">
-          <img src="kimmy1.jpg" class="gallery-item" onclick="alert('Foto Kimmy Baret 📸')">
-          <img src="kimmy2.jpg" class="gallery-item" onclick="alert('Selfie Kimmy Topi Hitam ✨')">
-        </div>
-      </div>
-
-      <!-- WHATSAPP APP -->
-      <div id="waApp" class="app-window">
-        <div class="app-header wa-header">
-          <span class="back-btn" onclick="closeApp('waApp')">‹ Chats</span>
-          <div style="display: flex; align-items: center; gap: 8px; flex: 1;">
-            <div style="width: 32px; height: 32px; background: #25D366; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 12px; font-weight: bold;">K</div>
-            <span style="font-size: 14px;">Grup JKT48 Official 🌸</span>
-          </div>
-        </div>
-        <div class="chat-body">
-          <div class="chat-bubble chat-in">
-            <div class="sender-name">Freya JKT48</div>
-            Kimmyyy, nanti latihan jam berapa ke teater?
-            <div class="chat-time">19:20</div>
-          </div>
-          <div class="chat-bubble chat-out">
-            Jam 3 sore lewat dikit Frey! Jangan telat yaaa 😋
-            <div class="chat-time">19:22</div>
-          </div>
-          <div class="chat-bubble chat-in">
-            <div class="sender-name">Christy JKT48</div>
-            Abis latihan titip boba ya guys! 🧋✨
-            <div class="chat-time">19:25</div>
-          </div>
-          <div class="chat-bubble chat-out">
-            Aman Christy, nanti aku pesenin pakai ojol ya! 🫶
-            <div class="chat-time">19:26</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- NOTES APP -->
-      <div id="notesApp" class="app-window">
-        <div class="app-header">
-          <span class="back-btn" onclick="closeApp('notesApp')">‹ Catatan</span>
-          <span style="flex: 1; text-align: center; margin-right: 60px;">Notes</span>
-        </div>
-        <div style="padding: 20px; font-size: 14px; line-height: 1.6; color: #e2e8f0; background: #000; flex: 1;">
-          📌 <strong>Jadwal & Target Kimmy:</strong><br><br>
-          - Hafalin koreo setlist baru JKT48 🕺<br>
-          - Live Showroom malam ini jam 9 ✨<br>
-          - Jangan lupa makan dan istirahat cukup 😴
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <script>
-    function updateClock() {
-      const now = new Date();
-      const hours = String(now.getHours()).padStart(2, '0');
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      const timeStr = `${hours}:${minutes}`;
-      document.getElementById('clock').innerText = timeStr;
-      document.getElementById('current-time-bar').innerText = timeStr;
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
-
-    function showPasscode() {
-      document.getElementById('passcode-screen').style.transform = 'translateY(0)';
-    }
-
-    let enteredPin = "";
-    const correctPin = "080310";
-
-    function pressNum(num) {
-      if (enteredPin.length < 6) {
-        enteredPin += num;
-        updateDots();
-      }
-      if (enteredPin.length === 6) {
-        setTimeout(checkPin, 150);
-      }
-    }
-
-    function clearNum() {
-      enteredPin = "";
-      updateDots();
-      document.getElementById('errorMsg').innerText = "";
-    }
-
-    function updateDots() {
-      for (let i = 1; i <= 6; i++) {
-        const dot = document.getElementById(`d${i}`);
-        if (i <= enteredPin.length) {
-          dot.classList.add('active');
-        } else {
-          dot.classList.remove('active');
-        }
-      }
-    }
-
-    function checkPin() {
-      if (enteredPin === correctPin) {
-        document.getElementById('lock-main').style.transform = 'translateY(-100%)';
-        document.getElementById('passcode-screen').style.transform = 'translateY(-100%)';
-      } else {
-        document.getElementById('errorMsg').innerText = "Sandi Salah!";
-        enteredPin = "";
-        updateDots();
-      }
-    }
-
-    function openApp(appId) {
-      document.getElementById(appId).style.display = 'flex';
-    }
-    function closeApp(appId) {
-      document.getElementById(appId).style.display = 'none';
-    }
-  </script>
-
-</body>
-</html>
+      display: flex; flex-direction: column; justify-content
