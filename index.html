@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kimmy's Phone Experience</title>
+  <style>
+    body {
+      background-color: #1a1a2e;
+      color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    /* Bingkai HP */
+    .phone-frame {
+      width: 320px;
+      height: 640px;
+      background-color: #0d0d1a;
+      border: 12px solid #333;
+      border-radius: 40px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Notch HP */
+    .notch {
+      width: 120px;
+      height: 20px;
+      background-color: #333;
+      margin: 0 auto;
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
+      z-index: 10;
+    }
+
+    /* Layar Utama */
+    .screen {
+      flex: 1;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: linear-gradient(180deg, #3a1c71, #d76d77, #ffaf7b);
+    }
+
+    .status-bar {
+      width: 100%;
+      text-align: right;
+      font-size: 12px;
+      margin-bottom: 20px;
+    }
+
+    .profile-section {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      border: 3px solid #fff;
+      background-color: #ccc;
+      object-fit: cover;
+    }
+
+    h2 {
+      margin: 10px 0 5px 0;
+      font-size: 20px;
+    }
+
+    p {
+      font-size: 12px;
+      opacity: 0.8;
+    }
+
+    /* Grid Aplikasi di HP */
+    .app-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-top: 40px;
+      width: 100%;
+    }
+
+    .app-icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .icon-box {
+      width: 55px;
+      height: 55px;
+      background-color: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(5px);
+      border-radius: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      transition: transform 0.2s;
+    }
+
+    .icon-box:hover {
+      transform: scale(1.1);
+    }
+
+    .app-name {
+      font-size: 11px;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Tampilan Bingkai HP -->
+  <div class="phone-frame">
+    <div class="notch"></div>
+    
+    <div class="screen">
+      <div class="status-bar">100% 🔋</div>
+      
+      <div class="profile-section">
+        <h2>Kimmy's Phone</h2>
+        <p>Welcome to Kimmy JKT48 Interactive Phone</p>
+      </div>
+
+      <!-- Menu Aplikasi HP Kimmy -->
+      <div class="app-grid">
+        <div class="app-icon" onclick="alert('Membuka Galeri Foto Kimmy...')">
+          <div class="icon-box">🖼️</div>
+          <span class="app-name">Galeri</span>
+        </div>
+        
+        <div class="app-icon" onclick="alert('Membuka Pesan Rahasia...')">
+          <div class="icon-box">💬</div>
+          <span class="app-name">Pesan</span>
+        </div>
+
+        <div class="app-icon" onclick="alert('Mendengarkan Voice Note Kimmy...')">
+          <div class="icon-box">🎵</div>
+          <span class="app-name">Voice Note</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
